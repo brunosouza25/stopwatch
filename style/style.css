@@ -1,0 +1,58 @@
+body {
+    background-color: #000;
+    color: #FF8C00;
+}
+
+.container {
+    background-color: #000;
+    max-width: 50%;
+    margin: 30px auto;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+.button {
+    width: 32.5%;
+    margin: 0%;
+    border-radius: 15px;
+    background-color: #FF8C00;
+    height: 1%;
+    font-size: 15px;
+    padding: 5px;
+    cursor: pointer;
+    margin-top: 4%;
+    font-weight: bold;
+}
+
+.result {
+    font-weight: bold;
+    font-size: 20px;
+    margin: auto;
+    text-align: center;
+    width: 80%;
+}
+
+.clock {
+    font-size: 65px;
+}
+
+.milliseconds {
+    font-size: 25px;
+}
+
+.splits {
+    float: center;
+}
+
+.list li {
+    margin: auto;
+    width: 37%;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
