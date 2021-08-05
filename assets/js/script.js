@@ -23,12 +23,12 @@ clearButton.addEventListener('click', function () {
     clear();
 });
 
-let timer, //Irá armazenar a função
+let stopWatch, //Irá armazenar a função
     startTime, // Irá armazenar o primeiro horário
     stoppedTime, // Irá armazenar a hora em que foi pausado
     stoppedDuration = 0, // Irá armazenar quanto tempo ficou pausado
     elapsedTime, // Irá armazenar o tempo "atual" subtraindo currentTime, startTime e stoppedDuration para obter o tempo decorrido
-    date;// Irá armazenar a string que será utilizada nas voltas do cronômetro
+    timer;// Irá armazenar a string que será utilizada nas voltas do cronômetro
 
 //Função responsável por iniciar o cronômetro
 function start() {
@@ -38,7 +38,7 @@ function start() {
     clock.setAttribute('style', 'color: #FF8C00;')
 
     splitButton.disabled = false;
-    if (timer) {
+    if (stopWatch) {
         return;
     }
     if (stoppedTime !== undefined) {
@@ -49,48 +49,51 @@ function start() {
         startTime = new Date();
     }
 
-    timer = setInterval(function () {
+    stopWatch = setInterval(function () {
         let currentTime = new Date();
         let timeElapse = new Date(currentTime - startTime - stoppedDuration);
         result.appendChild(clock);
-        timeElapse.setHours(timeElapse.getHours() + 3)
-        date = `${timeElapse.toLocaleTimeString()}:${zeroLeftMilliseconds(timeElapse)}`;
-        writeInClock(date)
+        timer = `${timeElapse.toLocaleTimeString('pt-BR', { hour12: false, timeZone: 'UTC' })}:${zeroLeftMilliseconds(timeElapse)}`;
+        writeInClock(timer)
     }, 1);
 }
 
 //Função responsável por escrever no cronômetro
-function writeInClock(data) {
-    const text = document.createTextNode(`${data}`);
+function writeInClock(timer) {
+    const text = document.createTextNode(`${timer}`);
     clock.innerText = '';
     clock.appendChild(text);
 }
 
 //Função responsável por adicionar os zeros a esquerda nos milisegundos
-function zeroLeftMilliseconds(data) {
-    if (data.getMilliseconds() < 10) {
-        return `00${data.getMilliseconds()}`;
-    } else if (data.getMilliseconds() < 100) {
-        return `0${data.getMilliseconds()}`;
+function zeroLeftMilliseconds(hours) {
+    if (hours.getMilliseconds() < 10) {
+        return `00${hours.getMilliseconds()}`;
+    } else if (hours.getMilliseconds() < 100) {
+        return `0${hours.getMilliseconds()}`;
     } else {
-        return `${data.getMilliseconds()}`;
+        return `${hours.getMilliseconds()}`;
     }
 }
 
 //Função responsável por pausar o cronômetro
 function stop() {
+    if (!stopWatch) {
+        return;
+    }
+
     clock.setAttribute('style', 'color: red;')
     stoppedTime = Date.now();
-    clearInterval(timer);
-    timer = undefined;
+    clearInterval(stopWatch);
+    stopWatch = undefined;
 }
 
 //Função responsável por realizar as voltas 
 function split() {
     const li = document.createElement('li');
 
-    splits.push(date);
-    li.innerText = date;
+    splits.push(timer);
+    li.innerText = timer;
 
     list.appendChild(li);
     divSplits.appendChild(list);
@@ -98,12 +101,12 @@ function split() {
 
 //Função responsável por limpar e zerar o cronômetro
 function clear() {
-    clearInterval(timer);
+    clearInterval(stopWatch);
     splitButton.disabled = true;
     splits = [];
     writeInClock('00:00:00:000');
     clock.setAttribute('style', 'color: #FF8C00;');
-    timer = undefined;
+    stopWatch = undefined;
     stoppedDuration = 0;
     stoppedTime = undefined;
     startTime = undefined;
