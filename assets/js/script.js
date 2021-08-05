@@ -1,26 +1,17 @@
 let splits = [];
 const divSplits = document.getElementById('splits');
-const splitButton = document.getElementById('split')
-const startButton = document.getElementById('start');
-const stopButton = document.getElementById('stop');
-const clearButton = document.getElementById('clear');
+const splitButton = document.getElementById('split');
 const list = document.getElementById('list');
 
-//Evento dos botões
-startButton.addEventListener('click', function () {
-    start();
-});
+document.addEventListener('click', function (event) {
+    const element = event.target;
+    const fun = element.id;
 
-stopButton.addEventListener('click', function () {
-    stop();
-});
+    if (fun === 'start' || fun === 'stop' || fun === 'split' || fun === 'clear') {
+        globalThis[fun]();
+    }
 
-splitButton.addEventListener('click', function () {
-    split();
-});
-
-clearButton.addEventListener('click', function () {
-    clear();
+    return;
 });
 
 let stopWatch, //Irá armazenar a função
@@ -35,7 +26,7 @@ function start() {
     const clock = document.getElementById('clock');
     const result = document.getElementById('result');
 
-    clock.setAttribute('style', 'color: #FF8C00;')
+    clock.setAttribute('style', 'color: #FF8C00;');
 
     splitButton.disabled = false;
     if (stopWatch) {
@@ -54,7 +45,7 @@ function start() {
         let timeElapse = new Date(currentTime - startTime - stoppedDuration);
         result.appendChild(clock);
         timer = `${timeElapse.toLocaleTimeString('pt-BR', { hour12: false, timeZone: 'UTC' })}:${zeroLeftMilliseconds(timeElapse)}`;
-        writeInClock(timer)
+        writeInClock(timer);
     }, 1);
 }
 
@@ -82,7 +73,7 @@ function stop() {
         return;
     }
 
-    clock.setAttribute('style', 'color: red;')
+    clock.setAttribute('style', 'color: red;');
     stoppedTime = Date.now();
     clearInterval(stopWatch);
     stopWatch = undefined;
