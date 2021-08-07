@@ -7,7 +7,7 @@ document.addEventListener('click', function (event) {
     const element = event.target;
     const fun = element.id;
 
-    if (fun === 'start' || fun === 'stop' || fun === 'split' || fun === 'clear') {
+    if (['start', 'stop', 'split', 'clear'].includes(fun)) {
         globalThis[fun]();
     }
 
@@ -54,6 +54,7 @@ function writeInClock(timer) {
     const text = document.createTextNode(`${timer}`);
     clock.innerText = '';
     clock.appendChild(text);
+    document.title = timer;
 }
 
 //Função responsável por adicionar os zeros a esquerda nos milisegundos
